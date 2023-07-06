@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ma'lumotlarni bazga yuborish</title>
+</head>
+<body>
+    <h2>Ma'lumotlarni bazga yuborish</h2>
+
+    <form id="myForm">
+        <label for="name">Ism:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <input type="submit" value="Yuborish">
+    </form>
+
+    <script>// Formani tanlash
+const form = document.getElementById("myForm");
+
+// Formani yuborish funktsiyasi
+function submitForm(event) {
+    event.preventDefault(); // Birlamchi tashqi arizani oldini olish
+
+    // Formadagi ma'lumotlarni olish
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+
+    // Ma'lumotlarni bazaga yuborish
+    const data = {
+        name: name,
+        email: email
+    };
+
+    // Ma'lumotlarni bazaga yuborish uchun fetch so'rovi
+    fetch("/api/endpoint", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Ma'lumotlar bazaga yuborildi!");
+            // Boshqa amallar
+        } else {
+            console.log("Xatolik yuz berdi. Xatolik kodi: " + response.status);
+            // Boshqa xatoliklar bilan ishlash
+        }
+    })
+    .catch(error => {
+        console.log("Xatolik yuz berdi: " + error);
+        // Boshqa xatoliklar bilan ishlash
+    });
+}
+
+// Formani yuborish hodisasini tinglash
+form.addEventListener("submit", submitForm);
+</script>
+</body>
+</html>
